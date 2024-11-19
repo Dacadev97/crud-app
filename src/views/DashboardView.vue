@@ -10,6 +10,8 @@ import { useCrudStore } from '../store/crudStore';
 import TableComponent from '../components/TableComponent.vue';
 import ModalComponent from '../components/ModalComponent.vue';
 import { ref, onMounted } from 'vue';
+import '@fortawesome/fontawesome-free/css/all.css';
+import '@fortawesome/fontawesome-free/js/all.js';
 
 export default {
   components: { TableComponent, ModalComponent },
@@ -20,8 +22,8 @@ export default {
     const showModal = ref(false);
     const selectedItem = ref(null);
 
-    onMounted(() => {
-      fetchItems();
+    onMounted(async () => {
+        await fetchItems();
     });
 
     const handleEdit = (item) => {
