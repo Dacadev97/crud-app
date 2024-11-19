@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import api from "../services/api";
+import api from "../services/api"; // Importa la instancia de axios configurada
 
 export const useCrudStore = defineStore("crud", {
   state: () => ({
@@ -10,8 +10,8 @@ export const useCrudStore = defineStore("crud", {
     async fetchItems() {
       this.loading = true;
       try {
-        const response = await api.get("/items"); // Cambiar a tu endpoint
-        this.items = response.data;
+        const response = await api.get("product");
+        this.items = response.data.data.products;
       } catch (error) {
         console.error(error);
       } finally {
@@ -20,7 +20,7 @@ export const useCrudStore = defineStore("crud", {
     },
     async addItem(item) {
       try {
-        const response = await api.post("/items", item);
+        const response = await api.post("/product", item);
         this.items.push(response.data);
       } catch (error) {
         console.error(error);
@@ -29,9 +29,10 @@ export const useCrudStore = defineStore("crud", {
     async updateItem(id, updatedItem) {
       try {
         await api.put(`/items/${id}`, updatedItem);
-        const index = this.items.findIndex((item) => item.id === id);
-        if (index !== -1)
+        const index = this.items.findIndex((item) => item._id === id);
+        if (index !== -1) {
           this.items[index] = { ...this.items[index], ...updatedItem };
+        }
       } catch (error) {
         console.error(error);
       }
@@ -39,7 +40,7 @@ export const useCrudStore = defineStore("crud", {
     async deleteItem(id) {
       try {
         await api.delete(`/items/${id}`);
-        this.items = this.items.filter((item) => item.id !== id);
+        this.items = this.items.filter((item) => item._id !== id);
       } catch (error) {
         console.error(error);
       }
