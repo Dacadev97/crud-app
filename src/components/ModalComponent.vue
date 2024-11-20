@@ -16,7 +16,7 @@
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="category">Categoría</label>
           <select
-            v-model="formData.category.name"
+            v-model="formData.category"
             id="category"
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           >
@@ -71,7 +71,10 @@ export default {
   props: ['data', 'categories'],
   data() {
     return {
-      formData: { ...this.data },
+      formData: {
+        ...this.data,
+        category: this.data.category ? this.data.category.name : '',
+      },
     };
   },
   methods: {

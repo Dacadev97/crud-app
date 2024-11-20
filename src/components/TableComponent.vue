@@ -1,5 +1,11 @@
 <template>
   <div class="w-full overflow-x-auto">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-bold">Lista de Productos</h2>
+      <button @click="addNew" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+        Añadir Nuevo
+      </button>
+    </div>
     <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
       <thead class="bg-blue-600 text-white">
         <tr>
@@ -44,8 +50,11 @@ export default {
     edit(item) {
       this.$emit('edit', item);
     },
-    remove(id) {
-      this.$emit('delete', id);
+    remove(_id) {
+      this.$emit('delete', _id);
+    },
+    addNew() {
+      this.$emit('add-new');
     },
   },
 };

@@ -1,12 +1,12 @@
 <template>
   <div>
-    <TableComponent :items="items" @edit="handleEdit" @delete="handleDelete" />
+    <TableComponent :items="items" @edit="handleEdit" @delete="handleDelete" @add-new="handleAddNew" />
     <ModalComponent v-if="showModal" :data="selectedItem" :categories="categories" @submit="saveItem" @close="handleClose" />
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useCrudStore } from '../store/crudStore';
 import TableComponent from '../components/TableComponent.vue';
 import ModalComponent from '../components/ModalComponent.vue';
@@ -34,8 +34,8 @@ export default {
       showModal.value = true;
     };
 
-    const handleDelete = (id) => {
-      deleteItem(id);
+    const handleDelete = async (_id) => {
+      await deleteItem(_id);
     };
 
     const saveItem = (item) => {
@@ -51,6 +51,24 @@ export default {
       showModal.value = false;
     };
 
+    const handleAddNew = () => {
+      selectedItem.value = {
+        name: '',
+        category: '',
+        selling_price: 0,
+        product_cost: 0,
+      }; // Inicializa un nuevo objeto vacío
+      showModal.value = true;
+    };
+
+    watch(
+      () => crudStore.items,
+      (newItems) => {
+        items.value = newItems;
+      },
+      { immediate: true }
+    );
+
     return {
       items,
       showModal,
@@ -60,6 +78,7 @@ export default {
       handleDelete,
       saveItem,
       handleClose,
+      handleAddNew,
     };
   },
 };

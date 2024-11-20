@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import api from "@/services/api";
-//
+
 export const useCrudStore = defineStore("crud", {
   state: () => ({
     items: [],
@@ -22,6 +22,14 @@ export const useCrudStore = defineStore("crud", {
         console.error(error);
       } finally {
         this.loading = false;
+      }
+    },
+    async fetchCategories() {
+      try {
+        const response = await api.get("category");
+        this.categories = response.data.categories;
+      } catch (error) {
+        console.error(error);
       }
     },
     async addItem(item) {
@@ -47,14 +55,6 @@ export const useCrudStore = defineStore("crud", {
       try {
         await api.delete(`/product/${id}`);
         this.items = this.items.filter((item) => item.id !== id);
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    async fetchCategories() {
-      try {
-        const response = await api.get("category");
-        this.categories = response.data.categories;
       } catch (error) {
         console.error(error);
       }
