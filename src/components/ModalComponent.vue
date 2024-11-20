@@ -13,6 +13,39 @@
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
         </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="category">Categoría</label>
+          <select
+            v-model="formData.category"
+            id="category"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          >
+            <option value="" disabled>Seleccione una categoría</option>
+            <option v-for="category in categories" :key="category._id" :value="category.name">
+              {{ category.name }}
+            </option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="price">Precio</label>
+          <input
+            v-model="formData.selling_price"
+            id="price"
+            type="number"
+            placeholder="Precio"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="cost">Costo</label>
+          <input
+            v-model="formData.product_cost"
+            id="cost"
+            type="number"
+            placeholder="Costo"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
         <div class="flex items-center justify-between">
           <button
             type="submit"
@@ -35,7 +68,7 @@
 
 <script>
 export default {
-  props: ['data'],
+  props: ['data', 'categories'],
   data() {
     return {
       formData: { ...this.data },
