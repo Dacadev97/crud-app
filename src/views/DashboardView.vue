@@ -38,11 +38,24 @@ export default {
       await deleteItem(_id);
     };
 
-    const saveItem = (item) => {
+    const saveItem = async (item) => {
+      console.log('Saving item:', item);
+      const payload = {
+        category: item.category,
+        barcode: item.barcode || '',
+        name: item.name,
+        presentation: item.presentation || 'unidad',
+        reference: item.reference || '',
+        description: item.description || '',
+        service: item.service || false,
+        selling_price: item.selling_price,
+        product_cost: item.product_cost,
+        taxes: item.taxes || [],
+      };
       if (item._id) {
-        updateItem(item._id, item);
+        await updateItem(item._id, payload);
       } else {
-        addItem(item);
+        await addItem(payload);
       }
       showModal.value = false;
     };
@@ -57,7 +70,7 @@ export default {
         category: '',
         selling_price: 0,
         product_cost: 0,
-      }; // Inicializa un nuevo objeto vacío
+      };
       showModal.value = true;
     };
 
